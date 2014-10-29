@@ -40,7 +40,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.get('/gallery', function (req, res){
-	res.render('../views/index.html');
+	res.render('index');
 });
 
 function Init(){
@@ -223,7 +223,7 @@ app.post('/gallery/addProduct', function(req, res){
 
 
 Init();
-var server = app.listen(8080, function() {
+var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });
 
