@@ -40,8 +40,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 app.get('/gallery', function (req, res){
-	res.set("Connection", "close");	
-	res.render('index');
+	res.render('../views/index.html');
 });
 
 function Init(){
