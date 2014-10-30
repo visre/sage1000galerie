@@ -9,7 +9,9 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var azure = require('azure');
 
+var blobService = azure.createBlobService(storage_account,gallerieKey);
 // view engine setup
 app.set('views', __dirname + '/views/');
 app.engine('html', require('ejs').renderFile);
@@ -57,6 +59,13 @@ app.use(function(err, req, res, next) {
     });
 });
 
+function Init(){
+    // Get index.json
+    blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
+    });
+}
+
+Init();
 app.listen(3000, function () {
 console.log("express has started on port 3000");
 });
