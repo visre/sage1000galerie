@@ -8,14 +8,12 @@
   "dependencies": {
     "azure": "~0.9.15",
     "body-parser": "1.8.2",
-    "adm-zip": "~0.4.4",
     "express": "~4.8.6",
     "ejs": "~1.0.0",
     "ejs-locals": "1.0.2",
     "formidable": "1.0.15",
     "html": "~0.0.7",
     "jsonfile": "2.0.0",
-    "unirest": "0.2.7",
     "util": "0.10.3"
   }
 }

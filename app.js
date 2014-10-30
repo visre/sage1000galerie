@@ -1,4 +1,3 @@
-var admzip = require('adm-zip');
 var express = require('express');
 var app = express();
 var azure = require('azure');
@@ -81,26 +80,6 @@ app.get('/gallery/getPackageJSON', function(req, res){
     });
 });
 
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//     var err = new Error('Not Found');
-//     err.status = 404;
-//     next(err);
-// });
-
-// // error handlers
-
-// // development error handler
-// // will print stacktrace
-// if (app.get('env') === 'development') {
-//     app.use(function(err, req, res, next) {
-//         res.status(err.status || 500);
-//         res.render('error', {
-//             message: err.message,
-//             error: err
-//         });
-//     });
-// }
 app.post('/gallery/addProduct', function(req, res){
     //1 - Lease the blob
     //2 - Get the blob & read
@@ -192,53 +171,6 @@ function Init(){
     blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
     });
 };
-
-
-
-
-// app.get('/product/delete', function(req, res){
-//  //delete package, image & json
-//  var item = url.parse(req.url).query;
-//  var filePath = packages_folder + item + '.zip';
-    
-//  //package
-//  blobService.deleteBlob(package_container, item + '.zip', function(error, response){
-//      if(!error){
-//          console.log("package de " + item + " supprimé");
-//      }
-//  });
-
-//  //image
-//  blobService.deleteBlob(images_container, item + '.jpg', function(error, response){
-//      if(!error){
-//          console.log("image de " + item + " supprimé");
-//      }
-//  });
-
-//  //json
-//  blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
-//      jf.readFile(__dirname + '/databases/packages.json', function (err, obj){
-//          for (var object in obj){
-//              console.log(object['link']);
-//              if(object['link'] === item){
-//                  console.log('delete ' + obj[object]);
-//                  delete obj[object]; 
-//              }
-//          }
-
-//          jf.writeFile(__dirname + '/databases/packages.json', obj, function(err){
-//              if(!err){
-//                  console.log("nouvelle liste : " + obj);
-//                  res.render('success.html');
-//                  blobService.createBlockBlobFromFile(index_container, "packages.json", __dirname + '/databases/packages.json', function(){});
-//              }
-//              else{
-//                  console.log(err);
-//              }
-//          }); 
-//      }); 
-//  }); 
-// });
 
 Init();
 app.listen(3000, function () {
