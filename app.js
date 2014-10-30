@@ -17,6 +17,12 @@ var index_container = 'descriptifs';
 var gallerieKey = 'SiQVY98VhO+NI1m6jfBMgB1M/00geM/puCgpMpRvsBSUz0H/xcgF77Wx9SiD7buJFvXZ9NTvyRNvf200CNT6Kg==';
 
 var blobService = azure.createBlobService(storage_account,gallerieKey);
+
+app.all('*', function(req, res, next){
+    res.set("Connection", "close");
+    next();
+});
+
 // view engine setup
 app.set('views', __dirname + '/views/');
 app.engine('html', require('ejs').renderFile);
@@ -39,6 +45,40 @@ app.get('/gallery/getPackageJSON', function(req, res){
     jf.readFile(__dirname + '/databases/packages.json', function (err, obj){
         res.send(obj);  
     });
+});
+
+app.get('/gallery/product/download', function(req, res){
+    var item = url.parse(req.url).query;
+    var filePath = packages_folder + item + '.zip';
+    blobService.getBlobToFile(package_container, item + '.zip', filePath, function(error, result, response){
+        if(!error){
+            var returnHeaders = {};
+            returnHeaders['Content-Disposition'] = 'attachment; filename="'+ item +'.zip"';
+            returnHeaders['Content-Type'] = 'application/zip';
+            returnHeaders['Connection'] = "close";
+            res.writeHead(200, returnHeaders); 
+            var stream = fs.createReadStream(filePath);
+            stream.on('open', function () {     
+                stream.pipe(res);
+            });
+            stream.on('end', function () {
+                res.end();
+            });         
+        }
+        else{
+            res.render('unfind');
+            console.log(error);
+        }
+    });         
+});
+
+app.get('/gallery/product/install', function(req, res){
+    var adresse = { 
+        "name" : req.query.name,
+        "blobUrl" : '/gallery/product/download?' + req.query.name,
+        "category" : req.query.category
+    };
+    res.end(JSON.stringify(adresse));
 });
 
 // catch 404 and forward to error handler
@@ -77,40 +117,6 @@ function Init(){
     blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
     });
 };
-
-app.get('/gallery/product/download', function(req, res){
-    var item = url.parse(req.url).query;
-    var filePath = packages_folder + item + '.zip';
-    blobService.getBlobToFile(package_container, item + '.zip', filePath, function(error, result, response){
-        if(!error){
-            var returnHeaders = {};
-            returnHeaders['Content-Disposition'] = 'attachment; filename="'+ item +'.zip"';
-            returnHeaders['Content-Type'] = 'application/zip';
-            returnHeaders['Connection'] = "close";
-            res.writeHead(200, returnHeaders); 
-            var stream = fs.createReadStream(filePath);
-            stream.on('open', function () {     
-                stream.pipe(res);
-            });
-            stream.on('end', function () {
-                res.end();
-            });         
-        }
-        else{
-            res.render('unfind');
-            console.log(error);
-        }
-    });         
-});
-
-app.get('/gallery/product/install', function(req, res){
-    var adresse = { 
-        "name" : req.query.name,
-        "blobUrl" : '/gallery/product/download?' + req.query.name,
-        "category" : req.query.category
-    };
-    res.end(JSON.stringify(adresse));
-});
 
 Init();
 app.listen(3000, function () {
