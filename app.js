@@ -47,7 +47,7 @@ app.get('/gallery/getPackageJSON', function(req, res){
     });
 });
 
-app.get('/gallery/product/download', function(req, res){
+app.get('gallery/product/download', function(req, res){
     var item = url.parse(req.url).query;
     var filePath = packages_folder + item + '.zip';
     blobService.getBlobToFile(package_container, item + '.zip', filePath, function(error, result, response){
@@ -72,7 +72,7 @@ app.get('/gallery/product/download', function(req, res){
     });         
 });
 
-app.get('/gallery/product/install', function(req, res){
+app.get('gallery/product/install', function(req, res){
     var adresse = { 
         "name" : req.query.name,
         "blobUrl" : '/gallery/product/download?' + req.query.name,
