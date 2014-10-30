@@ -12,6 +12,7 @@ var app = express();
 
 var azure = require('azure');
 var storage_account = 'gallerie';
+var index_container = 'descriptifs';
 var gallerieKey = 'SiQVY98VhO+NI1m6jfBMgB1M/00geM/puCgpMpRvsBSUz0H/xcgF77Wx9SiD7buJFvXZ9NTvyRNvf200CNT6Kg==';
 
 var blobService = azure.createBlobService(storage_account,gallerieKey);
