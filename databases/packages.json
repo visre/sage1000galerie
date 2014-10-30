@@ -124,11 +124,11 @@
   {
     "type": "product",
     "name": "Validation des engagements",
-    "link": "Validationdes engagements",
+    "link": "mobcommitments",
     "description": "Validation des engagements",
     "price": 0,
-    "file": "Validationdes engagements",
-    "package": "Validationdes engagements",
+    "file": "mobcommitments",
+    "package": "mobcommitments.zip",
     "category": "Mobile Apps",
     "countView": 0,
     "countOrder": 0
