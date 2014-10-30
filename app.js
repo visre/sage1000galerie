@@ -38,9 +38,6 @@ app.get('/gallery', function (req, res){
     res.render('index');
 });
 
-// app.use('/gallery', routes);
-// app.use('/users', users);
-
 app.get('/gallery/getPackageJSON', function(req, res){
     res.set("Connection", "close");
 

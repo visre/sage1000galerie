@@ -15,7 +15,6 @@
     "formidable": "1.0.15",
     "html": "~0.0.7",
     "jsonfile": "2.0.0",
-    "request": "2.44.0",
     "unirest": "0.2.7",
     "util": "0.10.3"
   }
