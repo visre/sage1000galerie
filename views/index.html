@@ -211,42 +211,42 @@
 		</div>
 	</div>
 	<script>
-		var referrer = document.referrer;
+			var referrer = document.referrer;
 
-		if ((referrer.length > 0) && ((referrer.indexOf("/server/portal.l1000") > -1) || (referrer.indexOf("/gallery/product/install") >-1))){
-			$(".thumbButton").each(function(){$(this).append('<a name="install" class="btn btn-xs btn-danger" ng-click="containerCtrl.getInstall(item.link, item.category); containerCtrl.selectTab(3)">Installer</a>')});
+			if ((referrer.length > 0) && ((referrer.indexOf("/server/portal.l1000") > -1) || (referrer.indexOf("/gallery/product/install") >-1))){
+				$(".thumbButton").each(function(){$(this).append('<a name="install" class="btn btn-xs btn-danger" ng-click="containerCtrl.getInstall(item.link, item.category); containerCtrl.selectTab(3)">Installer</a>')});
 
-			$(".thumbButton2").each(function(){$(this).append('<a name="install" class="btn btn-xs btn-danger" ng-click="containerCtrl.getInstall(item.link, item.category); containerCtrl.selectTab(3)">Installer</a>')});
-		}
-		else{
-			$(".addProduct").append('<a id="addproduct" href="#" ng-click="containerCtrl.selectTab(2)">Ajouter une application</a>');
+				$(".thumbButton2").each(function(){$(this).append('<a name="install" class="btn btn-xs btn-danger" ng-click="containerCtrl.getInstall(item.link, item.category); containerCtrl.selectTab(3)">Installer</a>')});
+			}
+			else{
+				$(".addProduct").append('<a id="addproduct" href="#" ng-click="containerCtrl.selectTab(2)">Ajouter une application</a>');
+				
+				$(".thumbButton").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a>')}); 	
+
+				$(".thumbButton2").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a>')});
+
+				// $(".thumbButton").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a><button style="margin-left:2px;" type="button" class="btn btn-default btn-xs" ng-click="containerCtrl.setItemModification(item.link)"><span class="glyphicon glyphicon-pencil"></span>Modifier</button>')}); 	
+
+				// $(".thumbButton2").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a><button style="margin-left:2px;" type="button" class="btn btn-default btn-xs" ng-click="containerCtrl.setItemModification(item.link)"><span class="glyphicon glyphicon-pencil"></span>Modifier</button>')}); 	 
+			}	
+
+			$("#inputImage").fileinput({'showUpload':false, 'previewFileType':'any'});
+			$("#inputPackage").fileinput({'showUpload':false, 'showPreview':false});
+			$("#inputCaptures").fileinput({'initialDelimiter':'10','showUpload':false});
 			
-			$(".thumbButton").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a>')}); 	
+			$(function(){				
+				$.getJSON( "http://www.telize.com/jsonip", function(data){
+					if(data.ip == '193.30.141.1' || data.ip == '193.30.141.2'){
+						$('#addproduct').attr('class','ng-show');
+					}
+				});	
 
-			$(".thumbButton2").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a>')});
-
-			// $(".thumbButton").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a><button style="margin-left:2px;" type="button" class="btn btn-default btn-xs" ng-click="containerCtrl.setItemModification(item.link)"><span class="glyphicon glyphicon-pencil"></span>Modifier</button>')}); 	
-
-			// $(".thumbButton2").each(function(){$(this).append('<a name="download" class="btn btn-xs btn-success" href="/gallery/product/download?' + $(this).attr("name") + '">Télécharger</a><button style="margin-left:2px;" type="button" class="btn btn-default btn-xs" ng-click="containerCtrl.setItemModification(item.link)"><span class="glyphicon glyphicon-pencil"></span>Modifier</button>')}); 	 
-		}	
-
-		$("#inputImage").fileinput({'showUpload':false, 'previewFileType':'any'});
-		$("#inputPackage").fileinput({'showUpload':false, 'showPreview':false});
-		$("#inputCaptures").fileinput({'initialDelimiter':'10','showUpload':false});
-		
-		$(function(){				
-			$.getJSON( "http://www.telize.com/jsonip", function(data){
-				if(data.ip == '193.30.141.1' || data.ip == '193.30.141.2'){
-					$('#addproduct').attr('class','ng-show');
-				}
-			});	
-
-			$("#inputSelectApplication").multiselect({
-	            includeSelectAllOption: true,
-	            selectAllValue: 'select-all-value'
-	        });
-		});
-	</script>
+				$("#inputSelectApplication").multiselect({
+		            includeSelectAllOption: true,
+		            selectAllValue: 'select-all-value'
+		        });
+			});
+		</script>
 	<script type="application/javascript" src="/gallery/javascripts/mosaic.1.0.1.min.js"></script>	
 	<script type="application/javascript" src="/gallery/javascripts/bootstrap-multiselect.js"></script>	
 	<script type="application/javascript" src="/gallery/controllers/app.js"></script>

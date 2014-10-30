@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var jf = require('jsonfile');
 var request = require('request');
 var url = require('url');
-var util = require('util');
-var http = require('http');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
