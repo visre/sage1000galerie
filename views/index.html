@@ -43,10 +43,48 @@
 				.details p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif; color:#aaa; text-shadow:1px 1px 0 rgb(0,0,0);}
 				.details a{ text-decoration:none; }
 	</style> 
-	test
 </head>
 <body>
-	test
+	<div class="container" ng-controller="ContainerController as containerCtrl">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+				  <a class="navbar-brand" href="#">Sage</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#" ng-click="itemCtrl.setCategory('All'); containerCtrl.selectTab(0)">Home</a></li>
+						<li><a href="#mobileapps" ng-click="itemCtrl.setCategory('Mobile Apps'); containerCtrl.selectTab(0)">Mobile Apps</a></li>
+						<li><a href="#dashboards" ng-click="itemCtrl.setCategory('Dashboards'); containerCtrl.selectTab(0)">Dashboards</a></li>
+						<li><a href="#activities" ng-click="itemCtrl.setCategory('Activities'); containerCtrl.selectTab(0)">Activities</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="addProduct">
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="navbar navbar-inverse navbar-top" ng-show="(((category == 'Dashboards') || (category == 'Activities')) && (containerCtrl.isSelected(0)))">
+	        <div class="container">
+	            <div class="collapse navbar-collapse main-nav">
+	                <ul class="nav navbar-nav">
+	                    <li><a href="#admin" ng-click="itemCtrl.setApp('admin')" ng-show="containerCtrl.isAppExist('admin')">Administration</a></li>
+	                    <li><a href="#compta" ng-click="itemCtrl.setApp('compta')" ng-show="containerCtrl.isAppExist('compta')">Comptabilité</a></li>
+	                    <li><a href="#demat" ng-click="itemCtrl.setApp('demat')" ng-show="containerCtrl.isAppExist('demat')">Dématérialisation</a></li>
+	                    <li><a href="#ndf" ng-click="itemCtrl.setApp('ndf')" ng-show="containerCtrl.isAppExist('ndf')">Note de frais</a></li>
+	                    <li><a href="#prop" ng-click="itemCtrl.setApp('prop')" ng-show="containerCtrl.isAppExist('prop')">Processus opérationnelles</a></li>
+	                    <li><a href="#budget" ng-click="itemCtrl.setApp('budget')" ng-show="containerCtrl.isAppExist('budget')">Budget</a></li>
+	                    <li><a href="#immo" ng-click="itemCtrl.setApp('immo')" ng-show="containerCtrl.isAppExist('immo')">Immobilisation</a></li>
+	                    <li><a href="#rappro" ng-click="itemCtrl.setApp('rappro')" ng-show="containerCtrl.isAppExist('rappro')">Rapprochement bancaire</a></li>
+	                    <li><a href="#treso" ng-click="itemCtrl.setApp('treso')" ng-show="containerCtrl.isAppExist('treso')">Trésorerie</a></li>
+	                    <li><a href="#paiement" ng-click="itemCtrl.setApp('paiement')" ng-show="containerCtrl.isAppExist('paiement')">Moyens de paiements</a></li>
+	                    <li><a href="#garanfi" ng-click="itemCtrl.setApp('garanfi')" ng-show="containerCtrl.isAppExist('garanfi')">Garanties financières</a></li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	<script type="application/javascript" src="/gallery/javascripts/mosaic.1.0.1.min.js"></script>	
 	<script type="application/javascript" src="/gallery/javascripts/bootstrap-multiselect.js"></script>	
 	<script type="application/javascript" src="/gallery/controllers/app.js"></script>
