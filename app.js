@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jf = require('jsonfile');
+var url = require('url');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -15,8 +16,15 @@ var azure = require('azure');
 var storage_account = 'gallerie';
 var index_container = 'descriptifs';
 var gallerieKey = 'SiQVY98VhO+NI1m6jfBMgB1M/00geM/puCgpMpRvsBSUz0H/xcgF77Wx9SiD7buJFvXZ9NTvyRNvf200CNT6Kg==';
+var images_container = 'images';
 
 var blobService = azure.createBlobService(storage_account,gallerieKey);
+
+app.all('*', function(req, res, next){
+    res.set("Connection", "close");
+    next();
+});
+
 // view engine setup
 app.set('views', __dirname + '/views/');
 app.engine('html', require('ejs').renderFile);
@@ -24,14 +32,18 @@ app.set('view engine', 'html');;
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(logger('dev'));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/gallery', routes);
-app.use('/users', users);
+app.get('/gallery', function (req, res){
+    res.render('index');
+});
+
+// app.use('/gallery', routes);
+// app.use('/users', users);
 
 app.get('/gallery/getPackageJSON', function(req, res){
     res.set("Connection", "close");
@@ -113,7 +125,7 @@ function Init(){
 };
 
 Init();
-app.listen(3000, function () {
+app.listen(8080, function () {
 console.log("express has started on port 3000");
 });
 
