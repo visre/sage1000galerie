@@ -126,7 +126,7 @@ function Init(){
 
 Init();
 app.listen(8080, function () {
-console.log("express has started on port 3000");
+console.log("express has started on port 8080");
 });
 
 module.exports = app;
