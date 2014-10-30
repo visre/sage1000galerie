@@ -1,42 +1,38 @@
+var admzip = require('adm-zip');
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var jf = require('jsonfile');
-var url = require('url');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
 var app = express();
-
 var azure = require('azure');
+var bodyParser = require('body-parser');
+var formidable = require('formidable');
+var fs = require('fs');
+var jf = require('jsonfile');
+var path = require('path');
+var url = require('url');
+var util = require('util');
+var http = require('http');
+
+
 var storage_account = 'gallerie';
-var index_container = 'descriptifs';
 var gallerieKey = 'SiQVY98VhO+NI1m6jfBMgB1M/00geM/puCgpMpRvsBSUz0H/xcgF77Wx9SiD7buJFvXZ9NTvyRNvf200CNT6Kg==';
+var package_container = 'packages';
+var index_container = 'descriptifs';
 var images_container = 'images';
 
 var blobService = azure.createBlobService(storage_account,gallerieKey);
+var packages_folder = __dirname + '/databases/packages/';
 
 app.all('*', function(req, res, next){
     res.set("Connection", "close");
     next();
 });
-
 // view engine setup
 app.set('views', __dirname + '/views/');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');;
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-// app.use(logger('dev'));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
+app.use("/databases", express.static(__dirname + '/databases'));
+app.use("/controllers", express.static(__dirname + '/controllers'));
 
 app.get('/gallery', function (req, res){
     res.render('index');
@@ -108,16 +104,6 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
 function Init(){
     // Get index.json
     blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
@@ -125,7 +111,7 @@ function Init(){
 };
 
 Init();
-app.listen(8080, function () {
+app.listen(3000, function () {
 console.log("express has started on port 8080");
 });
 
