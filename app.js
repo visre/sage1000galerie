@@ -9,8 +9,6 @@ var jf = require('jsonfile');
 var path = require('path');
 var url = require('url');
 var util = require('util');
-var http = require('http');
-
 
 var storage_account = 'gallerie';
 var gallerieKey = 'SiQVY98VhO+NI1m6jfBMgB1M/00geM/puCgpMpRvsBSUz0H/xcgF77Wx9SiD7buJFvXZ9NTvyRNvf200CNT6Kg==';
@@ -34,16 +32,11 @@ app.use(express.static(__dirname + '/public'));
 app.use("/databases", express.static(__dirname + '/databases'));
 app.use("/controllers", express.static(__dirname + '/controllers'));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.get('/gallery', function (req, res){
     res.render('index');
-});
-
-app.get('/gallery/getPackageJSON', function(req, res){
-    res.set("Connection", "close");
-
-    jf.readFile(__dirname + '/databases/packages.json', function (err, obj){
-        res.send(obj);  
-    });
 });
 
 app.get('/gallery/product/download', function(req, res){
@@ -80,33 +73,34 @@ app.get('/gallery/product/install', function(req, res){
     res.end(JSON.stringify(adresse));
 });
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.get('/gallery/getPackageJSON', function(req, res){
+    res.set("Connection", "close");
+
+    jf.readFile(__dirname + '/databases/packages.json', function (err, obj){
+        res.send(obj);  
+    });
 });
 
-// error handlers
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//     var err = new Error('Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
+// // error handlers
 
-function Init(){
-    // Get index.json
-    blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
-    });
-};
-
+// // development error handler
+// // will print stacktrace
+// if (app.get('env') === 'development') {
+//     app.use(function(err, req, res, next) {
+//         res.status(err.status || 500);
+//         res.render('error', {
+//             message: err.message,
+//             error: err
+//         });
+//     });
+// }
 app.post('/gallery/addProduct', function(req, res){
     //1 - Lease the blob
     //2 - Get the blob & read
@@ -145,6 +139,7 @@ app.post('/gallery/addProduct', function(req, res){
                     readStream = fs.createReadStream(files.inputCaptures[index].path);
                     writeStream = fs.createWriteStream(__dirname + '/public/gallery/img/' + name + '-' + index + extImg);
                     readStream.pipe(writeStream);
+                    blobService.createBlockBlobFromFile(images_container, name + '-' + index + extImg, files.inputCaptures[index].path, function(){});
                 };
             }
 
@@ -191,6 +186,14 @@ app.post('/gallery/addProduct', function(req, res){
         });
     });
 });
+
+function Init(){
+    // Get index.json
+    blobService.getBlobToFile(index_container, 'packages.json', __dirname + '/databases/packages.json', function(error, result, response){
+    });
+};
+
+
 
 
 // app.get('/product/delete', function(req, res){
