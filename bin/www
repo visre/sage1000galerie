@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var debug = require('debug')('sage1000galerie');
+var debug = require('debug')('test');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
