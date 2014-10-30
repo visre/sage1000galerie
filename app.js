@@ -36,8 +36,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/gallery', routes);
-app.use('/users', users);
+app.get('/gallery', function (req, res){
+    res.render('index');
+});
+
+// app.use('/gallery', routes);
+// app.use('/users', users);
 
 app.get('/gallery/getPackageJSON', function(req, res){
     res.set("Connection", "close");
@@ -47,7 +51,7 @@ app.get('/gallery/getPackageJSON', function(req, res){
     });
 });
 
-app.get('gallery/product/download', function(req, res){
+app.get('/gallery/product/download', function(req, res){
     var item = url.parse(req.url).query;
     var filePath = packages_folder + item + '.zip';
     blobService.getBlobToFile(package_container, item + '.zip', filePath, function(error, result, response){
@@ -72,7 +76,7 @@ app.get('gallery/product/download', function(req, res){
     });         
 });
 
-app.get('gallery/product/install', function(req, res){
+app.get('/gallery/product/install', function(req, res){
     var adresse = { 
         "name" : req.query.name,
         "blobUrl" : '/gallery/product/download?' + req.query.name,
