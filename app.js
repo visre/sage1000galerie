@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jf = require('jsonfile');
-var request = require('request');
 var url = require('url');
 
 var routes = require('./routes/index');
