@@ -68,7 +68,7 @@ function Init(){
     });
 }
 
-Init();
+// Init();
 app.listen(3000, function () {
 console.log("express has started on port 3000");
 });
